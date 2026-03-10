@@ -4,6 +4,8 @@ AI模拟交易追踪器
 ================
 记录AI模拟盘操作和收益
 与实盘对比比赛
+
+私有文件，不共享
 """
 
 import json
@@ -112,7 +114,9 @@ def show_status():
             price = get_price(code)
             if price > 0:
                 val = price * st['shares']
-                print('  %s: %d x %.2f = %.0f' % (st['name'], st['shares'], price, val))
+                cost_val = st['cost'] * st['shares']
+                pnl_pos = val - cost_val
+                print('  %s: %d x %.2f = %.0f (成本 %.0f, %+.0f)' % (st['name'], st['shares'], price, val, cost_val, pnl_pos))
     
     # 交易记录
     if data['trades']:
@@ -123,23 +127,21 @@ def show_status():
     
     print('='*70)
     
-    # 对比实盘
-    real_value = 850469  # 昨日市值
-    real_pnl = current_value - real_value
-    real_pnl_pct = real_pnl / real_value * 100
+    # 对比实盘 (以昨日收盘为基准)
+    real_start = 845348  # 昨日市值
+    real_pnl = current_value - real_start
+    real_pnl_pct = real_pnl / real_start * 100
     
     print('')
     print('='*70)
-    print('AI vs 实盘 对比')
+    print('AI vs 实盘 对比 (以昨日收盘为基准)')
     print('='*70)
-    print('实盘起始: %.0f CNY (2026-03-10)' % real_value)
-    print('AI起始:   %.0f CNY (2026-03-10)' % start_value)
+    print('起始(昨日收): %.0f CNY' % real_start)
+    print('AI起始:       %.0f CNY' % start_value)
     print('')
-    print('实盘当前: %.0f CNY' % real_value)
-    print('AI当前:   %.0f CNY' % current_value)
+    print('当前:         %.0f CNY' % current_value)
     print('')
-    print('实盘盈亏: %+.0f CNY (%+.2f%%)' % (0, 0))
-    print('AI盈亏:   %+.0f CNY (%+.2f%%)' % (pnl, pnl_pct))
+    print('AI盈亏:       %+.0f CNY (%+.2f%%)' % (pnl, pnl_pct))
     print('')
     if pnl > 0:
         print('*** AI领先 %.0f CNY ***' % pnl)
