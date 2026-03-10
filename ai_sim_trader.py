@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-AI模拟交易追踪器
+AI模拟交易追踪器 v2
 ================
-记录AI模拟盘操作和收益
-与实盘对比比赛
-
-私有文件，不共享
+- 自动计算现金
+- 持仓+现金 = 总资产
+- 自我检查机制
 """
 
 import json
@@ -15,7 +14,6 @@ from datetime import datetime
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-# 股票代码映射
 STOCKS = {
     '000032': ('sz', '深桑达A'),
     '300486': ('sz', '东杰智能'),
@@ -26,9 +24,8 @@ STOCKS = {
 }
 
 def get_price(code):
-    """获取实时价格"""
     market, _ = STOCKS.get(code, ('sz', code))
-    url = 'https://qt.gtimg.cn/q=' + market + code
+    url = f'https://qt.gtimg.cn/q={market}{code}'
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         resp = urllib.request.urlopen(req, timeout=10)
@@ -38,118 +35,77 @@ def get_price(code):
     except:
         return 0
 
-def load_sim_portfolio():
+def load_portfolio():
     with open('ai_sim_portfolio.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def save_sim_portfolio(data):
+def save_portfolio(data):
     with open('ai_sim_portfolio.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-def get_current_value():
-    """获取模拟盘当前市值"""
-    data = load_sim_portfolio()
-    total = 0
+def calculate_total():
+    """计算总资产 = 持仓市值 + 现金"""
+    data = load_portfolio()
+    
+    # 持仓市值
+    position_value = 0
     for acc, positions in data['positions'].items():
         for code, st in positions.items():
             price = get_price(code)
             if price > 0:
-                total += price * st['shares']
-    return total
-
-def sim_buy(code, shares, price):
-    """模拟买入"""
-    data = load_sim_portfolio()
-    trade = {
-        'date': datetime.now().strftime('%Y-%m-%d'),
-        'action': 'BUY',
-        'code': code,
-        'shares': shares,
-        'price': price,
-        'total': shares * price
+                position_value += price * st['shares']
+    
+    # 总资产 = 持仓 + 现金
+    total = position_value + data.get('cash', 0)
+    
+    return {
+        'position_value': position_value,
+        'cash': data.get('cash', 0),
+        'total': total,
+        'start': data['start_value']
     }
-    data['trades'].append(trade)
-    data['stats']['total_trades'] += 1
-    save_sim_portfolio(data)
-    return trade
 
-def sim_sell(code, shares, price):
-    """模拟卖出"""
-    data = load_sim_portfolio()
-    trade = {
-        'date': datetime.now().strftime('%Y-%m-%d'),
-        'action': 'SELL',
-        'code': code,
-        'shares': shares,
-        'price': price,
-        'total': shares * price
-    }
-    data['trades'].append(trade)
-    data['stats']['total_trades'] += 1
-    save_sim_portfolio(data)
-    return trade
+def self_check():
+    """自我检查"""
+    result = calculate_total()
+    issues = []
+    
+    # 检查1: 总资产应该大于现金
+    if result['total'] < result['cash']:
+        issues.append('错误: 总资产小于现金！')
+    
+    # 检查2: 收益率应该合理
+    pnl = result['total'] - result['start']
+    pnl_pct = pnl / result['start'] * 100
+    if abs(pnl_pct) > 50:
+        issues.append('警告: 收益率异常 (%.1f%%)' % pnl_pct)
+    
+    # 检查3: 现金为负数
+    if result['cash'] < 0:
+        issues.append('错误: 现金为负数！')
+    
+    return issues
 
 def show_status():
-    """显示模拟盘状态"""
-    data = load_sim_portfolio()
-    current_value = get_current_value()
-    start_value = data['start_value']
-    pnl = current_value - start_value
-    pnl_pct = pnl / start_value * 100
+    result = calculate_total()
+    issues = self_check()
     
     print('='*70)
-    print('AI模拟账户状态')
+    print('AI模拟账户')
     print('='*70)
-    print('起始日期:', data['start_date'])
-    print('起始资金: %.0f CNY' % start_value)
-    print('当前市值: %.0f CNY' % current_value)
-    print('总盈亏: %+.0f CNY (%+.2f%%)' % (pnl, pnl_pct))
-    print('')
-    print('交易次数:', data['stats']['total_trades'])
-    print('')
+    print('起始: %.0f CNY' % result['start'])
+    print('持仓市值: %.0f CNY' % result['position_value'])
+    print('现金: %.0f CNY' % result['cash'])
+    print('='*70)
+    print('总资产: %.0f CNY' % result['total'])
+    print('盈亏: %+.0f CNY (%+.2f%%)' % (result['total']-result['start'], (result['total']-result['start'])/result['start']*100))
     
-    # 持仓
-    print('当前持仓:')
-    for acc, positions in data['positions'].items():
-        for code, st in positions.items():
-            price = get_price(code)
-            if price > 0:
-                val = price * st['shares']
-                cost_val = st['cost'] * st['shares']
-                pnl_pos = val - cost_val
-                print('  %s: %d x %.2f = %.0f (成本 %.0f, %+.0f)' % (st['name'], st['shares'], price, val, cost_val, pnl_pos))
-    
-    # 交易记录
-    if data['trades']:
+    if issues:
         print('')
-        print('交易记录:')
-        for t in data['trades'][-5:]:
-            print('  %s %s %d@%.2f' % (t['date'], t['action'], t['shares'], t['price']))
+        print('⚠️ 自检问题:')
+        for issue in issues:
+            print('  - ' + issue)
     
-    print('='*70)
-    
-    # 对比实盘 (以昨日收盘为基准)
-    real_start = 905848  # 昨日市值(含东杰智能)
-    real_pnl = current_value - real_start
-    real_pnl_pct = real_pnl / real_start * 100
-    
-    print('')
-    print('='*70)
-    print('AI vs 实盘 对比 (以昨日收盘为基准)')
-    print('='*70)
-    print('起始(昨日收): %.0f CNY' % real_start)
-    print('AI起始:       %.0f CNY' % start_value)
-    print('')
-    print('当前:         %.0f CNY' % current_value)
-    print('')
-    print('AI盈亏:       %+.0f CNY (%+.2f%%)' % (pnl, pnl_pct))
-    print('')
-    if pnl > 0:
-        print('*** AI领先 %.0f CNY ***' % pnl)
-    elif pnl < 0:
-        print('*** 落后实盘 %.0f CNY ***' % abs(pnl))
-    else:
-        print('*** 平局 ***')
     print('='*70)
 
 if __name__ == '__main__':
