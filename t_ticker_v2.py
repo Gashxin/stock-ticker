@@ -6,9 +6,11 @@ V90 做T实时提醒器 v2.0
 功能: 交易日实时监控做T信号，触发时自动提醒
 
 监控股票:
-- 深桑达A (000032)
-- 东杰智能 (300486)  
-- 大族激光 (002008)
+- 深桑达A (000032) - 涨跌幅10%
+- 东杰智能 (300486) - 涨跌幅20%(创业板)
+- 雅化集团 (002497)
+- 江特电机 (002176)
+- 高端制造 (562910) - 涨跌幅30%(北交所)
 - 豪威集团 (603501)
 
 做T条件 (满足任一):
@@ -27,6 +29,40 @@ V90 做T实时提醒器 v2.0
 作者: 黄新民
 日期: 2026-03-10
 """
+
+
+def get_price_limit(code):
+    """获取股票涨跌幅限制
+    - 688xxx: 科创板 20%
+    - 300xxx: 创业板 20%
+    - 8xxxx/4xxxx: 北交所 30%
+    - 002xxx: 中小板 10%
+    - 000xxx/001xxx: 深交所主板 10%
+    - 600xxx/601xxx/603xxx: 上交所主板 10%
+    - ST/*ST: 5%
+    """
+    code = str(code)
+    
+    # 北交所
+    if code.startswith('8') or code.startswith('4'):
+        return 30
+    # 科创板
+    if code.startswith('688'):
+        return 20
+    # 创业板
+    if code.startswith('300'):
+        return 20
+    # ST/*ST
+    if code.startswith('ST') or code.startswith('*ST'):
+        return 5
+    # 上海主板
+    if code.startswith('600') or code.startswith('601') or code.startswith('603'):
+        return 10
+    # 深圳主板/中小板
+    if code.startswith('000') or code.startswith('001') or code.startswith('002'):
+        return 10
+    # 默认
+    return 10
 
 import urllib.request
 import json
@@ -182,6 +218,7 @@ def check_signal(code, name):
         'down3': down1 and down2 and down3,  # 真正的连续3天下跌
         'breakout': latest['breakout'],
         'vol_ratio': round(latest['vol_ratio'], 2),
+        'price_limit': get_price_limit(code),  # 涨跌幅限制
     }
 
 def is_trading_hours():
@@ -231,6 +268,7 @@ def main():
             print('\n' + result['name'] + ' (' + result['code'] + ')')
             print('  当前: ' + str(q['current']) + '元 (' + str(q['pct']) + '%)')
             print('  放量: ' + str(result['vol_ratio']) + 'x')
+            print('  涨跌幅: ' + str(result['price_limit']) + '%')
             print('  突破20日: ' + str(result['breakout']))
             print('  连续上涨: ' + ('3天' if result['up3'] else '2天' if result['up2'] else '无'))
             
