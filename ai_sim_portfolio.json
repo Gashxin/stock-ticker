@@ -1,0 +1,24 @@
+{
+  "name": "AI Sim Account",
+  "start_date": "2026-03-09",
+  "start_value": 845348,
+  "cash": 0,
+  "positions": {
+    "Zhongjin": {
+      "000032": {"name": "ShenSangDaA", "shares": 18900, "cost": 19.14},
+      "002497": {"name": "YaHua", "shares": 100, "cost": 24.13},
+      "002176": {"name": "JiangTe", "shares": 100, "cost": 10.13},
+      "562910": {"name": "HighEnd", "shares": 61500, "cost": 0.977}
+    },
+    "Guoxin": {
+      "000032": {"name": "ShenSangDaA", "shares": 15500, "cost": 19.14},
+      "603501": {"name": "HaoWei", "shares": 1100, "cost": 112.2}
+    }
+  },
+  "trades": [],
+  "stats": {
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0
+  }
+}
