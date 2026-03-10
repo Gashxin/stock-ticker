@@ -143,13 +143,14 @@ def check_signal(code, name):
     forbid_reason = ''
     
     # 可做T条件
+    # 连续3天上涨: 今天AND昨天AND2天前都上涨
     if latest['breakout'] and latest['vol_ratio'] > 1.3:
         can_t = True
         reason = '突破20日+放量'
-    elif up3:
+    elif up1 and up2 and up3:
         can_t = True
         reason = '连续3天上涨'
-    elif up2:
+    elif up1 and up2:
         can_t = True
         reason = '连续2天上涨'
     elif latest['vol_ratio'] > 1.5 and up1:
@@ -157,7 +158,8 @@ def check_signal(code, name):
         reason = '放量上涨'
     
     # 禁止做T条件
-    if down3:
+    # 连续3天下跌: 今天AND昨天AND2天前都下跌
+    if down1 and down2 and down3:
         forbidden = True
         forbid_reason = '连续下跌3天'
     elif high_open and low_close:
@@ -172,8 +174,9 @@ def check_signal(code, name):
         'reason': reason,
         'forbidden': forbidden,
         'forbid_reason': forbid_reason,
-        'up3': up3,
-        'up2': up2,
+        'up3': up1 and up2 and up3,  # 真正的连续3天上涨
+        'up2': up1 and up2,  # 真正的连续2天上涨
+        'down3': down1 and down2 and down3,  # 真正的连续3天下跌
         'breakout': latest['breakout'],
         'vol_ratio': round(latest['vol_ratio'], 2),
     }
