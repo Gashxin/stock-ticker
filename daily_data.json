@@ -1,0 +1,68 @@
+{
+  "000032": {
+    "current": 19.36,
+    "prev": 19.14,
+    "open": 19.51,
+    "high": 20.29,
+    "low": 19.33,
+    "up1": true,
+    "up2": true,
+    "up3": true,
+    "high_open_low_close": true
+  },
+  "300486": {
+    "current": 24.37,
+    "prev": 24.2,
+    "open": 24.26,
+    "high": 24.5,
+    "low": 24.22,
+    "up1": true,
+    "up2": false,
+    "up3": true,
+    "high_open_low_close": false
+  },
+  "002497": {
+    "current": 24.92,
+    "prev": 24.13,
+    "open": 24.47,
+    "high": 25.12,
+    "low": 24.35,
+    "up1": true,
+    "up2": true,
+    "up3": false,
+    "high_open_low_close": false
+  },
+  "002176": {
+    "current": 10.27,
+    "prev": 10.13,
+    "open": 10.2,
+    "high": 10.31,
+    "low": 10.16,
+    "up1": true,
+    "up2": true,
+    "up3": false,
+    "high_open_low_close": false
+  },
+  "562910": {
+    "current": 0.99,
+    "prev": 0.977,
+    "open": 0.983,
+    "high": 0.99,
+    "low": 0.979,
+    "up1": true,
+    "up2": false,
+    "up3": true,
+    "high_open_low_close": false
+  },
+  "603501": {
+    "current": 113.84,
+    "prev": 112.2,
+    "open": 113.6,
+    "high": 114.4,
+    "low": 113.6,
+    "up1": true,
+    "up2": false,
+    "up3": true,
+    "high_open_low_close": false
+  }
+}
