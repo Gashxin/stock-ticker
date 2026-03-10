@@ -18,6 +18,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 # 股票代码映射
 STOCKS = {
     '000032': ('sz', '深桑达A'),
+    '300486': ('sz', '东杰智能'),
     '002497': ('sz', '雅化集团'),
     '002176': ('sz', '江特电机'),
     '562910': ('sh', '高端制造'),
@@ -128,7 +129,7 @@ def show_status():
     print('='*70)
     
     # 对比实盘 (以昨日收盘为基准)
-    real_start = 845348  # 昨日市值
+    real_start = 905848  # 昨日市值(含东杰智能)
     real_pnl = current_value - real_start
     real_pnl_pct = real_pnl / real_start * 100
     
