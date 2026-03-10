@@ -2,65 +2,50 @@
   "accounts": {
     "中金财富": {
       "holdings": {
-        "600519": {
-          "name": "贵州茅台",
-          "shares": 100,
-          "cost_per_share": 1850.0,
-          "total_cost": 185000.0,
-          "start_date": "2026-03-10",
-          "update_date": "2026-03-10",
-          "current_price": 1397.0,
-          "current_value": 139700.0
-        },
-        "000001": {
-          "name": "平安银行",
-          "shares": 2000,
-          "cost_per_share": 12.27,
-          "total_cost": 24540.0,
-          "start_date": "2026-03-10",
-          "update_date": "2026-03-10",
-          "current_price": 10.76,
-          "current_value": 21520.0
-        },
-        "002594": {
-          "name": "比亚迪",
-          "shares": 200,
-          "cost_per_share": 238.0,
-          "total_cost": 47600.0,
-          "start_date": "2026-03-10",
-          "update_date": "2026-03-10",
-          "current_price": 97.52,
-          "current_value": 19504.0
-        },
         "000032": {
           "name": "深桑达A",
-          "shares": 2000,
-          "cost_per_share": 16.55,
-          "total_cost": 33100.0,
+          "shares": 18900,
+          "cost_per_share": 22.934,
+          "total_cost": 433452.60000000003,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 19.14,
-          "current_value": 38280.0
+          "current_price": 19.14
         },
         "300486": {
           "name": "东杰智能",
-          "shares": 1700,
-          "cost_per_share": 22.5,
-          "total_cost": 38250.0,
+          "shares": 2500,
+          "cost_per_share": 16.489,
+          "total_cost": 41222.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 24.2,
-          "current_value": 41140.0
+          "current_price": 24.2
         },
-        "002649": {
-          "name": "博彦科技",
-          "shares": 2000,
-          "cost_per_share": 15.31,
-          "total_cost": 30620.0,
+        "002497": {
+          "name": "雅化集团",
+          "shares": 100,
+          "cost_per_share": 412.975,
+          "total_cost": 41297.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 12.76,
-          "current_value": 25520.0
+          "current_price": 24.13
+        },
+        "002176": {
+          "name": "江特电机",
+          "shares": 100,
+          "cost_per_share": 1657.93,
+          "total_cost": 165793.0,
+          "start_date": "2026-03-10",
+          "update_date": "2026-03-10",
+          "current_price": 10.13
+        },
+        "562910": {
+          "name": "高端制造",
+          "shares": 61500,
+          "cost_per_share": 0.979,
+          "total_cost": 60208.5,
+          "start_date": "2026-03-10",
+          "update_date": "2026-03-10",
+          "current_price": 0.977
         }
       },
       "trades": []
@@ -69,43 +54,21 @@
       "holdings": {
         "000032": {
           "name": "深桑达A",
-          "shares": 2000,
-          "cost_per_share": 18.2,
-          "total_cost": 36400.0,
+          "shares": 15500,
+          "cost_per_share": 21.033,
+          "total_cost": 326011.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 19.14,
-          "current_value": 38280.0
-        },
-        "300486": {
-          "name": "东杰智能",
-          "shares": 1000,
-          "cost_per_share": 22.5,
-          "total_cost": 22500.0,
-          "start_date": "2026-03-10",
-          "update_date": "2026-03-10",
-          "current_price": 24.2,
-          "current_value": 24200.0
-        },
-        "002008": {
-          "name": "大族激光",
-          "shares": 500,
-          "cost_per_share": 40.0,
-          "total_cost": 20000.0,
-          "start_date": "2026-03-10",
-          "update_date": "2026-03-10",
-          "current_price": 67.77,
-          "current_value": 33885.0
+          "current_price": 19.14
         },
         "603501": {
           "name": "豪威集团",
-          "shares": 300,
-          "cost_per_share": 115.0,
-          "total_cost": 34500.0,
+          "shares": 1100,
+          "cost_per_share": 117.868,
+          "total_cost": 129654.79999999999,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 112.2,
-          "current_value": 33660.0
+          "current_price": 112.2
         }
       },
       "trades": []
