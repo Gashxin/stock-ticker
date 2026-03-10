@@ -9,7 +9,8 @@
           "total_cost": 433452.60000000003,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 19.14
+          "current_price": 20.02,
+          "pct_today": 4.6
         },
         "300486": {
           "name": "东杰智能",
@@ -18,7 +19,8 @@
           "total_cost": 41222.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 24.2
+          "current_price": 24.46,
+          "pct_today": 1.07
         },
         "002497": {
           "name": "雅化集团",
@@ -27,7 +29,8 @@
           "total_cost": 41297.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 24.13
+          "current_price": 24.92,
+          "pct_today": 3.27
         },
         "002176": {
           "name": "江特电机",
@@ -36,7 +39,8 @@
           "total_cost": 165793.0,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 10.13
+          "current_price": 10.25,
+          "pct_today": 1.18
         },
         "562910": {
           "name": "高端制造",
@@ -45,7 +49,8 @@
           "total_cost": 60208.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 0.977
+          "current_price": 0.984,
+          "pct_today": 0.72
         }
       },
       "trades": []
@@ -59,7 +64,8 @@
           "total_cost": 326011.5,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 19.14
+          "current_price": 20.02,
+          "pct_today": 4.6
         },
         "603501": {
           "name": "豪威集团",
@@ -68,7 +74,8 @@
           "total_cost": 129654.79999999999,
           "start_date": "2026-03-10",
           "update_date": "2026-03-10",
-          "current_price": 112.2
+          "current_price": 113.96,
+          "pct_today": 1.57
         }
       },
       "trades": []
