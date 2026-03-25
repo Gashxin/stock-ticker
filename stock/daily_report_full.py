@@ -28,8 +28,10 @@ def get_weather(lat, lon):
 
 # ========== 股价数据 ==========
 def get_price(code):
-    market = 'sz' if code.startswith('00') or code.startswith('30') else 'sh'
-    url = 'https://qt.gtimg.cn/q={}{}'.format(market, code)
+    # Handle codes with suffix like 000032_g -> 000032
+    clean_code = code[:6]
+    market = 'sz' if clean_code.startswith('00') or clean_code.startswith('30') else 'sh'
+    url = 'https://qt.gtimg.cn/q={}{}'.format(market, clean_code)
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         resp = urllib.request.urlopen(req, timeout=10)
@@ -57,25 +59,36 @@ def get_index():
     except:
         return None
 
-# ========== 持仓数据 (用户确认) ==========
+# ========== 持仓数据 (完整持仓) ==========
 # 国信证券
 GUOXIN = {
-    '000032': ('深桑达A', 15500, 21.033),
+    '000032_g': ('深桑达A(国)', 15500, 21.033),
     '603501': ('豪威集团', 1100, 117.868),
 }
 GUOXIN_CASH = 25101
 
 # 中金财富
 ZHONGJIN = {
-    '000032': ('深桑达A', 18900, 22.934),
+    '000032_z': ('深桑达A(中)', 18900, 22.934),
     '562910': ('高端制造', 61500, 0.979),
-    '002497': ('雅化集团', 100, 412.975),
-    '002176': ('江特电机', 100, 1657.930),
+    '002497_z': ('雅化集团(中)', 100, 412.975),
+    '002176_z': ('江特电机(中)', 100, 1657.930),
 }
 
-# 今日买入
+# 今日买入 (亚华)
 YAHU_BUY = {
     '002497': ('雅化集团', 1800, 25.05),
+}
+
+# 全部持仓汇总 (自动计算)
+ALL_HOLDINGS = {
+    '000032_g': ('深桑达A(国)', 15500, 21.033),  # 国信
+    '603501': ('豪威集团', 1100, 117.868),      # 国信
+    '000032C': ('深桑达A(中)', 18900, 22.934), # 中金
+    '562910': ('高端制造', 61500, 0.979),       # 中金
+    '002497K': ('雅化集团', 100, 412.975),      # 中金
+    '002176K': ('江特电机', 100, 1657.930),     # 中金
+    '002497B': ('雅化集团(买)', 1800, 25.05),   # 今日买入
 }
 
 # 股票概念/板块
@@ -124,13 +137,16 @@ def main():
         if not data:
             continue
         
+        # Get clean code for display and concept lookup
+        clean_code = code[:6]
+        
         value = data['current'] * shares
         pnl = value - cost * shares
         total_value += value
         
-        concept = CONCEPTS.get(code, '')
+        concept = CONCEPTS.get(clean_code, '')
         
-        print(f"\n{code} {name}:")
+        print(f"\n{clean_code} {name}:")
         print(f"  当前: {data['current']:.2f}元 ({data['pct']:+.2f}%)")
         print(f"  持仓: {shares}股 | 市值: {value:.0f}元 | 盈亏: {pnl:+.0f}元")
         print(f"  概念: {concept}")
