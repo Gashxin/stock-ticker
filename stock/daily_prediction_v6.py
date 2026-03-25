@@ -1184,6 +1184,26 @@ def get_rl_prediction():
             
     except Exception as e:
         result.append(f"强化学习分析失败: {e}")
+    
+    # 添加风控建议
+    result.append("")
+    result.append("【V2.0风控建议】")
+    result.append("止损线:")
+    result.append("  -7% 第一止损，密切关注")
+    result.append("  -10% 第二止损，建议减仓50%")
+    result.append("  -15% 强制清仓")
+    result.append("止盈线:")
+    result.append("  +5% 第一止盈，可部分卖出")
+    result.append("  +8% 第二止盈，可卖出50%")
+    result.append("  +15% 分批卖出，锁定利润")
+    result.append("仓位管理:")
+    result.append("  单只股票最大: 30%")
+    result.append("  做T最大仓位: 30%")
+    result.append("  单日最大交易: 3次")
+    result.append("大盘风控:")
+    result.append("  -5%以下: 极高风险，停止所有买入")
+    result.append("  -3%以下: 高风险，建议减仓")
+    result.append("  +3%以上: 低风险，积极做多")
 
 def main():
     print(f"正在生成 {REPORT_DATE} 每日股票分析报告 (V100)...")
